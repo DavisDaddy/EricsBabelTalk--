@@ -1,8 +1,23 @@
 #+Title: Babel -- Org-mode Code Blocks
-#+Author: Eric Schulte
-#+Date: <2012-03-25 Sun>
-#+URL: http://github.com/eschulte/babel-presentation
+#+Author: Eric Schulte / Michael Hannon
+#+Date: <2012-05-14 Mon>
+#+URL: https://DavisDaddy@github.com/DavisDaddy/EricsBabelTalk--.git
 #+Options: toc:nil ^:nil
+
+* Background
+
+This is based on a talk given by Eric Schulte:
+
+    http://github.com/eschulte/babel-presentation
+
+Note that in order to use replicate the calculations in this document,
+you need to have:
+
+  - A very recent version of Emacs Org mode installed
+  - Some additional Emacs initialization (in the ".emacs" file)
+
+The details for these two items are well-known but are not included in
+this document.
 
 * Org-mode -- a /very/ brief introduction
 ** Outlines in plain text
@@ -36,6 +51,13 @@ Plain Text
 | 10 |
 #+TBLFM: $1=vsum(@1..@-1)
 
+See, for instance:
+
+    http://orgmode.org/worg/org-tutorials/org-spreadsheet-intro.html
+
+for some more details.  Note, in particular, that the TBLFM line can
+be generated automatically from a formula entered in a given cell.
+
 ** Much much more
 (which I am not familiar with and won't focus on)
 
@@ -43,6 +65,12 @@ including...
 - GTD (supports the "Getting Things Done" methodology)
 - scheduling and agendas
 - task management
+
+See:
+
+    http://orgmode.org/guide/index.html
+
+for an introduction.
 
 * Babel -- using code and data in your documents
 Integrating programming and natural languages in Org-mode documents.
@@ -63,6 +91,11 @@ Integrating programming and natural languages in Org-mode documents.
   ;; live code execution
   (org-toggle-inline-images)
 #+end_src
+
+Type C-c C-c (control-c, followed by control-c) to execute a source
+block, e.g., to see/not see images displayed inline in the block
+above.  There are many examples of this below.
+
 
 * Applications -- uses of integrated code and data
 
@@ -89,6 +122,14 @@ Integrating programming and natural languages in Org-mode documents.
 
 * Syntax -- inline code, data and references
 ** Objects
+
+Just the general syntax used for objects in Org mode.
+
+One important note is that Org mode contains features that make it
+very easy to create tables and lists.  Also, source-code blocks will
+create the appropriate structures when the blocks are executed (via
+C-c C-c).
+
 code block
 #+name: block-name
 #+begin_src language header-arguments
@@ -112,7 +153,12 @@ tabular data
 - 4
 
 ** References
-Objects may be referenced from inline code blocks
+Objects may be referenced from inline code blocks.  Here are some
+examples.  Note that the "results" option tells Org mode if/how to
+display the results from the evaluation of the source block.  The
+"exports" option tells Org mode what should be included HTML, PDF,
+etc., versions of the document (hit C-c C-e and then select an export
+option from the resulting list).
 
 #+name: reverse(list=list-data)
 #+begin_src emacs-lisp :results value :exports both
@@ -184,6 +230,19 @@ Objects may be referenced from inline code blocks
 : 1	three
 
 * Export -- supporting reproducible research
+Org mode supports direct, inline inclusion of LaTeX code.  Another
+example is given below.
+
+Note also the inclusion of an inline source block to calculate the
+mean of some data.  The basic syntax is:
+
+#+BEGIN_EXAMPLE
+src_<language>[<options>]{<code>}
+#+END_EXAMPLE
+
+An exported version of the file will contain the results of the
+calculation (in place of the "src_R..." text).
+
 The results of our experiment are shown in Table \ref{example}.  The
 mean of column 2 of which is equal to src_R[:var d=example]{mean(d[,2])}
 and a plot of which is shown in Figure \ref{example-plot}.
@@ -196,6 +255,11 @@ and a plot of which is shown in Figure \ref{example-plot}.
 | 2 |  9 |
 | 3 | 16 |
 | 5 | 25 |
+
+Here's an example of passing data from another Org-mode block to the
+gnuplot utility.  It's likely that people in statistics (and related
+fields) would do this directly in R, but this demonstrates some of
+the flexibility of Org mode.
 
 #+name: example-plot
 #+BEGIN_SRC gnuplot :var example_data=example :file example.png
@@ -211,7 +275,9 @@ and a plot of which is shown in Figure \ref{example-plot}.
 [[file:example.png]]
 
 * Tangling -- supporting literate programming
-Tangle out shell scripts to visualize a logistic map.
+Tangle out shell scripts to visualize a logistic map.  Note again the
+inline use of LaTeX.  (To "tangle" is to extract only the code
+segments from a combined code-and-documentation document.)
 
 \begin{equation*}
   x_{n+1}=rx_{n}(1-x_{n})
@@ -227,6 +293,18 @@ scripts in separate windows, in the order:
 - R --vanilla -q -f generate-r-vals.R
 - R --vanilla -q -f readAndPlotData.R
 
+The purpose of this section is really just to demonstrate that code
+*can* be tangled.  As usual, in our environment, all this would
+probably done directly inside an R program.  On the other hand, the
+use of a FIFO (named pipe) and communicating producer-consumer
+processes might be interesting in their own right.
+
+Note also that the FIFO will continue to exist as a file-like object
+until it is explicitly removed.  There's no need to run "make-fifo"
+more than once.
+
+Note also that this example probably will not work on a Windows
+machine.
 
 #+NAME: make-fifo
 #+BEGIN_SRC sh :tangle make-fifo :shebang #!/bin/bash
@@ -296,6 +374,8 @@ scripts in separate windows, in the order:
 * Example -- Pascal's Triangle with Python and Dot
 ** Generating Pascal's Triangle with Python
 
+More examples of using Org mode as a meta-language.
+
 #+name: pascals_triangle
 #+begin_src python :var n=5 :exports output :results value :session
 def pascals_triangle(n):
@@ -317,6 +397,8 @@ pascals_triangle(n)
 | 1 | 4 |  6 |  4 | 1 |   |
 | 1 | 5 | 10 | 10 | 5 | 1 |
 
+Note: rows should sum to powers of 2.
+
 #+NAME: sanity-check(sc_input=pascals_triangle)
 #+BEGIN_SRC R :fill yes :results output :session :exports both
   
@@ -328,6 +410,11 @@ pascals_triangle(n)
 
 #+RESULTS: sanity-check
 : [1]  1  2  4  8 16 32
+
+Here's a larger example, still involving Pascal's triangle.  The
+reverse-diagonal elements should sum to Fibanocci numbers.  The R code
+below checks this.
+
 
 #+CALL: pascals_triangle(7)
 
@@ -379,6 +466,11 @@ pascals_triangle(n)
 : [1] TRUE
 
 ** Converting Pascal's Triangle to Dot with Python
+
+I don't know anything about "dot", but this shows how to use it if you
+do.  Again, we use Python to generate the dot code and feed the
+results to another language (dot) to process it.
+
 
 #+name: pst-to-dot
 #+begin_src python :var pst=pascals_triangle(5) :results output :exports none
@@ -442,11 +534,15 @@ pascals_triangle(n)
 
 ** Code blocks as functions
 
-
-Slightly modified version of example at:
+We've already seen examples of this above.  Here's another.  This is a
+slightly modified version of example at:
 
     http://orgmode.org/worg/org-contrib/babel/intro.html
 
+
+The R code block does a particularly simple calculation.  This is just
+to make it easy to verify the result "in your head".  The calculation
+could be arbitrarily complicated.
 
 #+NAME: tbl-example-data(n=5)
 #+BEGIN_SRC R :session :exports both
@@ -475,6 +571,12 @@ Slightly modified version of example at:
 |  2.5 |
 #+TBLFM: @2$1='(sbe "R-mean" (x "tbl-example-data(4)"))
 
+Note that the table formula (TBLFM) invokes a source-code block to do
+the calculation, by means of the "sbe" (Source Block Evaluation)
+macro.
+
+The implication of this is that the spreadsheet has at its disposal
+*any* of the languages supported by Org mode (and there are many).
 
 * Conclusion
 Org-mode has many features which are well suited to RR and LP.

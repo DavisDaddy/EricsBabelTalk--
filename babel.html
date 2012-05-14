@@ -1,0 +1,1020 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Babel &ndash; Org-mode Code Blocks</title>
+<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
+<meta name="title" content="Babel &ndash; Org-mode Code Blocks"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2012-05-14"/>
+<meta name="author" content="Eric Schulte / Michael Hannon"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js">
+<!--/*--><![CDATA[/*><!--*/
+    MathJax.Hub.Config({
+        // Only one of the two following lines, depending on user settings
+        // First allows browser-native MathML display, second forces HTML/CSS
+        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
+                     "TeX/noUndefined.js"],
+        tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
+            skipTags: ["script","noscript","style","textarea","pre","code"],
+            ignoreClass: "tex2jax_ignore",
+            processEscapes: false,
+            processEnvironments: true,
+            preview: "TeX"
+        },
+        showProcessingMessages: true,
+        displayAlign: "center",
+        displayIndent: "2em",
+
+        "HTML-CSS": {
+             scale: 100,
+             availableFonts: ["STIX","TeX"],
+             preferredFont: "TeX",
+             webFont: "TeX",
+             imageFont: "TeX",
+             showMathMenu: true,
+        },
+        MMLorHTML: {
+             prefer: {
+                 MSIE:    "MML",
+                 Firefox: "MML",
+                 Opera:   "HTML",
+                 other:   "HTML"
+             }
+        }
+    });
+/*]]>*///-->
+</script>
+</head>
+<body>
+
+<div id="preamble">
+
+</div>
+
+<div id="content">
+<h1 class="title">Babel &ndash; Org-mode Code Blocks</h1>
+
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Background</h2>
+<div class="outline-text-2" id="text-1">
+
+
+<p>
+This is based on a talk given by Eric Schulte:
+</p>
+<p>
+    <a href="http://github.com/eschulte/babel-presentation">http://github.com/eschulte/babel-presentation</a>
+</p>
+<p>
+Note that in order to use replicate the calculations in this document,
+you need to have:
+</p>
+<ul>
+<li>A very recent version of Emacs Org mode installed
+</li>
+<li>Some additional Emacs initialization (in the ".emacs" file)
+</li>
+</ul>
+
+
+<p>
+The details for these two items are well-known but are not included in
+this document.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Org-mode &ndash; a <i>very</i> brief introduction</h2>
+<div class="outline-text-2" id="text-2">
+
+
+</div>
+
+<div id="outline-container-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> Outlines in plain text</h3>
+<div class="outline-text-3" id="text-2-1">
+
+<p>Outlines
+</p><ul>
+<li><i>everything</i> is an outline
+</li>
+<li>navigate large files as if they were directories
+</li>
+</ul>
+
+
+<p>
+Plain Text
+</p><ul>
+<li>version control
+</li>
+<li>portable
+</li>
+<li>use other tools with other tools (e.g., notepad, <code>grep</code>)
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Export</h3>
+<div class="outline-text-3" id="text-2-2">
+
+
+<pre class="example">
+                    +------&gt; LaTeX/PDF
+                    |                
+                    +------&gt; HTML     
+      +-----+       |           
+      | Org |-------+------&gt; plain text
+      +-----+       |                 
+                    +------&gt; Open-Doc  
+                    |               
+                    +------&gt; Bibtex, DocBook, Freemind, xoxo, S5...  
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> Spreadsheets and Tables</h3>
+<div class="outline-text-3" id="text-2-3">
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col class="right" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="right">1</th></tr>
+<tr><th scope="col" class="right">2</th></tr>
+<tr><th scope="col" class="right">3</th></tr>
+<tr><th scope="col" class="right">4</th></tr>
+</thead>
+<tbody>
+<tr><td class="right">10</td></tr>
+</tbody>
+</table>
+
+
+<p>
+See, for instance:
+</p>
+<p>
+    <a href="http://orgmode.org/worg/org-tutorials/org-spreadsheet-intro.html">http://orgmode.org/worg/org-tutorials/org-spreadsheet-intro.html</a>
+</p>
+<p>
+for some more details.  Note, in particular, that the TBLFM line can
+be generated automatically from a formula entered in a given cell.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-2-4" class="outline-3">
+<h3 id="sec-2-4"><span class="section-number-3">2.4</span> Much much more</h3>
+<div class="outline-text-3" id="text-2-4">
+
+<p>(which I am not familiar with and won't focus on)
+</p>
+<p>
+including&hellip;
+</p><ul>
+<li>GTD (supports the "Getting Things Done" methodology)
+</li>
+<li>scheduling and agendas
+</li>
+<li>task management
+</li>
+</ul>
+
+
+<p>
+See:
+</p>
+<p>
+    <a href="http://orgmode.org/guide/index.html">http://orgmode.org/guide/index.html</a>
+</p>
+<p>
+for an introduction.
+</p>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Babel &ndash; using code and data in your documents</h2>
+<div class="outline-text-2" id="text-3">
+
+<p>Integrating programming and natural languages in Org-mode documents.
+</p>
+<ul>
+<li><img src="img/tower-of-babel.png"  alt="img/tower-of-babel.png" />
+<blockquote>
+
+<p>The people is one and they have all one language; &hellip; and now
+nothing will be restrained from them
+</p>
+</blockquote>
+
+
+</li>
+<li><img src="img/babelfish.png"  alt="img/babelfish.png" />
+<blockquote>
+
+<p>The Babel Fish is small, yellow and simultaneously translates from
+one spoken language to another.
+</p>
+</blockquote>
+
+
+</li>
+</ul>
+
+
+
+
+
+<pre class="src src-emacs-lisp"><span style="color: #ffa500;">;; </span><span style="color: #ffa500;">live code execution</span>
+(org-toggle-inline-images)
+</pre>
+
+
+<p>
+Type C-c C-c (control-c, followed by control-c) to execute a source
+block, e.g., to see/not see images displayed inline in the block
+above.  There are many examples of this below.
+</p>
+
+</div>
+
+</div>
+
+<div id="outline-container-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Applications &ndash; uses of integrated code and data</h2>
+<div class="outline-text-2" id="text-4">
+
+
+<ul>
+<li>Reproducible Research (RR)
+<blockquote>
+
+<p>An article about computational science in a scientific publication
+is not the scholarship itself, it is merely advertising of the
+scholarship. The actual scholarship is the complete software
+development environment and complete set of instructions which
+generated the figures.
+</p>
+</blockquote>
+
+
+
+</li>
+<li>Literate Programming (LP)
+<blockquote>
+
+<p>Let us change our traditional attitude to the construction of
+programs: Instead of imagining that our main task is to instruct a
+computer what to do, let us concentrate rather on explaining to
+human beings what we want a computer to do.
+</p>
+</blockquote>
+
+
+</li>
+<li><i>working</i> notes
+
+</li>
+<li>executable class notes, presentations and tutorials
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Syntax &ndash; inline code, data and references</h2>
+<div class="outline-text-2" id="text-5">
+
+
+</div>
+
+<div id="outline-container-5-1" class="outline-3">
+<h3 id="sec-5-1"><span class="section-number-3">5.1</span> Objects</h3>
+<div class="outline-text-3" id="text-5-1">
+
+
+<p>
+Just the general syntax used for objects in Org mode.
+</p>
+<p>
+One important note is that Org mode contains features that make it
+very easy to create tables and lists.  Also, source-code blocks will
+create the appropriate structures when the blocks are executed (via
+C-c C-c).
+</p>
+<p>
+code block
+</p>
+
+
+<pre class="src src-language">body
+</pre>
+
+
+<ul>
+<li>scalar data
+</li>
+</ul>
+
+<pre class="example">
+number or string
+</pre>
+
+
+<p>
+tabular data
+</p><table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col class="right" /><col class="right" />
+</colgroup>
+<tbody>
+<tr><td class="right">1</td><td class="right">2</td></tr>
+<tr><td class="right">3</td><td class="right">4</td></tr>
+</tbody>
+</table>
+
+
+<ul>
+<li>list data
+</li>
+</ul>
+
+<ul>
+<li>1
+</li>
+<li>2
+</li>
+<li>3
+</li>
+<li>4
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-5-2" class="outline-3">
+<h3 id="sec-5-2"><span class="section-number-3">5.2</span> References</h3>
+<div class="outline-text-3" id="text-5-2">
+
+<p>Objects may be referenced from inline code blocks.  Here are some
+examples.  Note that the "results" option tells Org mode if/how to
+display the results from the evaluation of the source block.  The
+"exports" option tells Org mode what should be included HTML, PDF,
+etc., versions of the document (hit C-c C-e and then select an export
+option from the resulting list).
+</p>
+
+
+
+<pre class="src src-emacs-lisp">(print list)
+(reverse list)
+
+</pre>
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col class="right" /><col class="right" /><col class="right" /><col class="right" />
+</colgroup>
+<tbody>
+<tr><td class="right">4</td><td class="right">3</td><td class="right">2</td><td class="right">1</td></tr>
+</tbody>
+</table>
+
+
+
+
+
+<pre class="src src-R">table
+
+</pre>
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col class="right" /><col class="right" />
+</colgroup>
+<tbody>
+<tr><td class="right">1</td><td class="right">2</td></tr>
+<tr><td class="right">3</td><td class="right">4</td></tr>
+</tbody>
+</table>
+
+
+
+
+
+<pre class="src src-R">t(table)
+
+</pre>
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col class="right" /><col class="right" />
+</colgroup>
+<tbody>
+<tr><td class="right">1</td><td class="right">3</td></tr>
+<tr><td class="right">2</td><td class="right">4</td></tr>
+</tbody>
+</table>
+
+
+
+
+
+<pre class="src src-sh"><span style="color: #b0c4de;">echo</span> <span style="color: #ffa07a;">"table as seen in shell"</span>
+<span style="color: #b0c4de;">echo</span> <span style="color: #ffa07a;">"$data"</span>
+
+</pre>
+
+
+<pre class="example">
+table as seen in shell
+1	2
+3	4
+</pre>
+
+
+
+
+
+<pre class="src src-sh"><span style="color: #b0c4de;">echo</span> <span style="color: #ffa07a;">"reverse of transpose of table as seen in shell"</span>
+<span style="color: #b0c4de;">echo</span> <span style="color: #ffa07a;">"$data"</span>
+
+</pre>
+
+
+<pre class="example">
+reverse of transpose of table as seen in shell
+2	4
+1	3
+</pre>
+
+
+
+
+
+<pre class="src src-sh"><span style="color: #b0c4de;">echo</span> -e <span style="color: #ffa07a;">"replace some digits with corresponding strings\n"</span>
+<span style="color: #b0c4de;">echo</span> <span style="color: #ffa07a;">"$data"</span> | sed <span style="color: #ffa07a;">'s/3/three/;s/2/two/'</span>
+
+</pre>
+
+
+<pre class="example">
+replace some digits with corresponding strings
+
+two	4
+1	three
+</pre>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> Export &ndash; supporting reproducible research</h2>
+<div class="outline-text-2" id="text-6">
+
+<p>Org mode supports direct, inline inclusion of LaTeX code.  Another
+example is given below.
+</p>
+<p>
+Note also the inclusion of an inline source block to calculate the
+mean of some data.  The basic syntax is:
+</p>
+
+
+
+<pre class="example">src_&lt;language&gt;[&lt;options&gt;]{&lt;code&gt;}
+</pre>
+
+
+<p>
+An exported version of the file will contain the results of the
+calculation (in place of the "src_R&hellip;" text).
+</p>
+<p>
+The results of our experiment are shown in Table <a href="#example">example</a>.  The
+mean of column 2 of which is equal to <code>11</code>
+and a plot of which is shown in Figure <a href="#example-plot">example-plot</a>.
+</p>
+<table  border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides" id="example">
+<caption>Our example data.</caption>
+<colgroup><col class="right" /><col class="right" />
+</colgroup>
+<tbody>
+<tr><td class="right">1</td><td class="right">1</td></tr>
+<tr><td class="right">1</td><td class="right">4</td></tr>
+<tr><td class="right">2</td><td class="right">9</td></tr>
+<tr><td class="right">3</td><td class="right">16</td></tr>
+<tr><td class="right">5</td><td class="right">25</td></tr>
+</tbody>
+</table>
+
+
+<p>
+Here's an example of passing data from another Org-mode block to the
+gnuplot utility.  It's likely that people in statistics (and related
+fields) would do this directly in R, but this demonstrates some of
+the flexibility of Org mode.
+</p>
+
+
+<p>
+<img src="example.png"  alt="example.png" />
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-7" class="outline-2">
+<h2 id="sec-7"><span class="section-number-2">7</span> Tangling &ndash; supporting literate programming</h2>
+<div class="outline-text-2" id="text-7">
+
+<p>Tangle out shell scripts to visualize a logistic map.  Note again the
+inline use of LaTeX.  (To "tangle" is to extract only the code
+segments from a combined code-and-documentation document.)
+</p>
+
+
+\begin{equation*}
+  x_{n+1}=rx_{n}(1-x_{n})
+\end{equation*}
+
+<p>
+This is <b>IMPORTANT</b>:
+</p>
+<p>
+The code blocks in this section should <i>not</i> be executed within the
+context of Org mode.  Just tangle (C-c C-v C-t) and run the generated
+scripts in separate windows, in the order:
+</p>
+<ul>
+<li>./make-fifo
+</li>
+<li>R &ndash;vanilla -q -f generate-r-vals.R
+</li>
+<li>R &ndash;vanilla -q -f readAndPlotData.R
+</li>
+</ul>
+
+
+<p>
+The purpose of this section is really just to demonstrate that code
+<b>can</b> be tangled.  As usual, in our environment, all this would
+probably done directly inside an R program.  On the other hand, the
+use of a FIFO (named pipe) and communicating producer-consumer
+processes might be interesting in their own right.
+</p>
+<p>
+Note also that the FIFO will continue to exist as a file-like object
+until it is explicitly removed.  There's no need to run "make-fifo"
+more than once.
+</p>
+<p>
+Note also that this example probably will not work on a Windows
+machine.
+</p>
+
+
+
+<pre class="src src-sh">mkfifo --mode a+rw /tmp/feedRplot
+
+</pre>
+
+
+
+
+<pre class="src src-R">con <span style="color: #7fffd4;">&lt;-</span> fifo(<span style="color: #ffa07a;">"/tmp/feedRplot"</span>, <span style="color: #ffa07a;">"wb"</span>, blocking=<span style="color: #98fb98;">TRUE</span>)
+
+xinit <span style="color: #7fffd4;">&lt;-</span> 0.5
+cat (xinit, file=con)
+cat (<span style="color: #ffa07a;">"\n"</span>, file=con)
+
+nsteps <span style="color: #7fffd4;">&lt;-</span> 1000
+cat (nsteps, file=con)
+cat (<span style="color: #ffa07a;">"\n"</span>, file=con)
+
+rvals <span style="color: #7fffd4;">&lt;-</span> seq(from=2.3, to=4.0, by=0.005)
+writeBin(rvals, con)
+cat (<span style="color: #ffa07a;">"\n"</span>, file=con)
+
+close(con)
+
+</pre>
+
+
+
+<pre class="src src-R">conx   <span style="color: #7fffd4;">&lt;-</span> fifo(<span style="color: #ffa07a;">"/tmp/feedRplot"</span>, <span style="color: #ffa07a;">"rb"</span>, blocking=<span style="color: #98fb98;">TRUE</span>)
+xinit  <span style="color: #7fffd4;">&lt;-</span> as.numeric(readLines(conx, n=1))
+nsteps <span style="color: #7fffd4;">&lt;-</span> as.numeric(readLines(conx, n=1))
+
+x11()
+plot(1, 1, xlim=c(2.4, 4), ylim=c(0, 1), type=<span style="color: #ffa07a;">"n"</span>, ann=<span style="color: #98fb98;">FALSE</span>)
+<span style="color: #00ffff;">while</span>(!is.null(next.r.val <span style="color: #7fffd4;">&lt;-</span> readBin(conx, <span style="color: #ffa07a;">"double"</span>))) {
+    <span style="color: #00ffff;">if</span> (length(next.r.val) &gt; 0) {
+        x <span style="color: #7fffd4;">&lt;-</span> xinit
+        <span style="color: #00ffff;">for</span> (i <span style="color: #00ffff;">in</span> 1:nsteps) {
+            x <span style="color: #7fffd4;">&lt;-</span> next.r.val * x * (1 - x)
+        }
+        points(next.r.val, x, pch=1, cex=0.5)
+    } <span style="color: #00ffff;">else</span> {
+        <span style="color: #00ffff;">break</span>
+    }
+}
+
+title(main=<span style="color: #ffa07a;">"Logistic Map, bifurcation diagram"</span>, col.main=<span style="color: #ffa07a;">"red"</span>,
+      cex.main=2.0, xlab=<span style="color: #ffa07a;">"r values"</span>, ylab=<span style="color: #ffa07a;">"x values"</span>, cex.lab=2,
+      col.lab=<span style="color: #ffa07a;">"blue"</span>)
+text(x=2.8, y=0.9, labels=paste(<span style="color: #ffa07a;">"xinit = "</span>, xinit, sep=<span style="color: #ffa07a;">""</span>),
+     cex=1.5, col=<span style="color: #ffa07a;">"green"</span>)
+text(x=2.8, y=0.8,
+     labels=expression(x[n+1] %<span style="color: #7fffd4;">&lt;-</span>% r*x[n]*(1 - x[n])),
+     cex=1.5, col=<span style="color: #ffa07a;">"blue"</span>)
+text(x=2.8, y=0.7, labels=paste(<span style="color: #ffa07a;">"nsteps = "</span>, nsteps, sep=<span style="color: #ffa07a;">""</span>),
+     cex=1.5, col=<span style="color: #ffa07a;">"red"</span>)
+Sys.sleep(30)
+
+</pre>
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-8" class="outline-2">
+<h2 id="sec-8"><span class="section-number-2">8</span> Example &ndash; Pascal's Triangle with Python and Dot</h2>
+<div class="outline-text-2" id="text-8">
+
+
+</div>
+
+<div id="outline-container-8-1" class="outline-3">
+<h3 id="sec-8-1"><span class="section-number-3">8.1</span> Generating Pascal's Triangle with Python</h3>
+<div class="outline-text-3" id="text-8-1">
+
+
+<p>
+More examples of using Org mode as a meta-language.
+</p>
+
+
+
+<pre class="src src-python"><span style="color: #00ffff;">def</span> <span style="color: #87cefa;">pascals_triangle</span>(n):
+    <span style="color: #00ffff;">if</span> n == 0:
+        <span style="color: #00ffff;">return</span> [[1]]
+    prev_triangle = pascals_triangle(n-1)
+    prev_row = prev_triangle[n-1]
+    this_row = <span style="color: #b0c4de;">map</span>(<span style="color: #b0c4de;">sum</span>, <span style="color: #b0c4de;">zip</span>([0] + prev_row, prev_row + [0]))
+    <span style="color: #00ffff;">return</span> prev_triangle + [this_row]
+
+pascals_triangle(n)
+</pre>
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col class="right" /><col class="right" /><col class="right" /><col class="left" /><col class="left" /><col class="left" />
+</colgroup>
+<tbody>
+<tr><td class="right">1</td><td class="right"></td><td class="right"></td><td class="left"></td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="right">1</td><td class="right">1</td><td class="right"></td><td class="left"></td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="right">1</td><td class="right">2</td><td class="right">1</td><td class="left"></td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="right">1</td><td class="right">3</td><td class="right">3</td><td class="left">1</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="right">1</td><td class="right">4</td><td class="right">6</td><td class="left">4</td><td class="left">1</td><td class="left"></td></tr>
+<tr><td class="right">1</td><td class="right">5</td><td class="right">10</td><td class="left">10</td><td class="left">5</td><td class="left">1</td></tr>
+</tbody>
+</table>
+
+
+<p>
+Note: rows should sum to powers of 2.
+</p>
+
+
+
+<pre class="src src-R">pt <span style="color: #7fffd4;">&lt;-</span> sc_input
+pt[is.na(pt)] <span style="color: #7fffd4;">&lt;-</span> 0
+rowSums(pt)
+
+</pre>
+
+
+<pre class="example">
+[1]  1  2  4  8 16 32
+</pre>
+
+
+<p>
+Here's a larger example, still involving Pascal's triangle.  The
+reverse-diagonal elements should sum to Fibanocci numbers.  The R code
+below checks this.
+</p>
+
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col class="right" /><col class="right" /><col class="right" /><col class="right" /><col class="left" /><col class="left" /><col class="left" /><col class="left" />
+</colgroup>
+<tbody>
+<tr><td class="right">1</td><td class="right"></td><td class="right"></td><td class="right"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="right">1</td><td class="right">1</td><td class="right"></td><td class="right"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="right">1</td><td class="right">2</td><td class="right">1</td><td class="right"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="right">1</td><td class="right">3</td><td class="right">3</td><td class="right">1</td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="right">1</td><td class="right">4</td><td class="right">6</td><td class="right">4</td><td class="left">1</td><td class="left"></td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="right">1</td><td class="right">5</td><td class="right">10</td><td class="right">10</td><td class="left">5</td><td class="left">1</td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="right">1</td><td class="right">6</td><td class="right">15</td><td class="right">20</td><td class="left">15</td><td class="left">6</td><td class="left">1</td><td class="left"></td></tr>
+<tr><td class="right">1</td><td class="right">7</td><td class="right">21</td><td class="right">35</td><td class="left">35</td><td class="left">21</td><td class="left">7</td><td class="left">1</td></tr>
+</tbody>
+</table>
+
+
+
+
+
+<pre class="src src-R">pt <span style="color: #7fffd4;">&lt;-</span> sc_input
+pt[is.na(pt)] <span style="color: #7fffd4;">&lt;-</span> 0
+
+revDiag <span style="color: #7fffd4;">&lt;-</span> sapply(1:nrow(pt), <span style="color: #00ffff;">function</span> (i) {
+                                sum (
+                                     sapply (i:1, <span style="color: #00ffff;">function</span> (j) {
+                                              pt[i - j + 1, j]
+                                          }
+                                     )
+                                )
+                            }
+                  )
+print(revDiag)  <span style="color: #ffa500;">##### </span><span style="color: #ffa500;">print sums of reverse-diagonal elements</span>
+
+<span style="color: #87cefa;">fibR</span> <span style="color: #7fffd4;">&lt;-</span> <span style="color: #00ffff;">function</span>(n) {
+    <span style="color: #00ffff;">if</span> (n &lt;= 2) {
+        <span style="color: #00ffff;">return</span> (1)
+    } <span style="color: #00ffff;">else</span> {
+        <span style="color: #00ffff;">return</span> (fibR(n - 1) + fibR(n - 2))
+    }
+}
+
+fibNos <span style="color: #7fffd4;">&lt;-</span> sapply(1:nrow(pt), <span style="color: #00ffff;">function</span>(n) fibR(n))
+print(fibNos) <span style="color: #ffa500;">#### </span><span style="color: #ffa500;">print Fibanocci numbers</span>
+
+all.equal(revDiag, fibNos) <span style="color: #ffa500;">#### </span><span style="color: #ffa500;">sums == Fibs?</span>
+
+</pre>
+
+
+<pre class="example">
+[1]  1  1  2  3  5  8 13 21
+[1]  1  1  2  3  5  8 13 21
+[1] TRUE
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-8-2" class="outline-3">
+<h3 id="sec-8-2"><span class="section-number-3">8.2</span> Converting Pascal's Triangle to Dot with Python</h3>
+<div class="outline-text-3" id="text-8-2">
+
+
+<p>
+I don't know anything about "dot", but this shows how to use it if you
+do.  Again, we use Python to generate the dot code and feed the
+results to another language (dot) to process it.
+</p>
+
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-8-3" class="outline-3">
+<h3 id="sec-8-3"><span class="section-number-3">8.3</span> Graphing Pascal's Triangle with Dot</h3>
+<div class="outline-text-3" id="text-8-3">
+
+
+
+<p>
+<img src="pascals-triangle.png"  alt="pascals-triangle.png" />
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-8-4" class="outline-3">
+<h3 id="sec-8-4"><span class="section-number-3">8.4</span> Code blocks as functions</h3>
+<div class="outline-text-3" id="text-8-4">
+
+
+<p>
+We've already seen examples of this above.  Here's another.  This is a
+slightly modified version of example at:
+</p>
+<p>
+    <a href="http://orgmode.org/worg/org-contrib/babel/intro.html">http://orgmode.org/worg/org-contrib/babel/intro.html</a>
+</p>
+
+<p>
+The R code block does a particularly simple calculation.  This is just
+to make it easy to verify the result "in your head".  The calculation
+could be arbitrarily complicated.
+</p>
+
+
+
+<pre class="src src-R">seq(1:n)
+
+</pre>
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col class="right" />
+</colgroup>
+<tbody>
+<tr><td class="right">1</td></tr>
+<tr><td class="right">2</td></tr>
+<tr><td class="right">3</td></tr>
+<tr><td class="right">4</td></tr>
+<tr><td class="right">5</td></tr>
+</tbody>
+</table>
+
+
+
+
+
+<pre class="src src-R">mean(x)
+
+</pre>
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">mean</th></tr>
+</thead>
+<tbody>
+<tr><td class="left">2.5</td></tr>
+</tbody>
+</table>
+
+
+<p>
+Note that the table formula (TBLFM) invokes a source-code block to do
+the calculation, by means of the "sbe" (Source Block Evaluation)
+macro.
+</p>
+<p>
+The implication of this is that the spreadsheet has at its disposal
+<b>any</b> of the languages supported by Org mode (and there are many).
+</p>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-9" class="outline-2">
+<h2 id="sec-9"><span class="section-number-2">9</span> Conclusion</h2>
+<div class="outline-text-2" id="text-9">
+
+<p>Org-mode has many features which are well suited to RR and LP.
+</p><ul>
+<li>open source (essential for RR)
+</li>
+<li>widely available
+</li>
+<li>active community
+</li>
+<li>general and extensible
+</li>
+<li>integrated into Emacs (will be included in Emacs24)
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+
+<div id="postamble">
+<p class="date">Date: 2012-05-14</p>
+<p class="author">Author: Eric Schulte / Michael Hannon</p>
+<p class="creator">Org version 7.8.09 with Emacs version 23</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
+</div>
+</body>
+</html>
