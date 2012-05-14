@@ -1,0 +1,485 @@
+#+Title: Babel -- Org-mode Code Blocks
+#+Author: Eric Schulte
+#+Date: <2012-03-25 Sun>
+#+URL: http://github.com/eschulte/babel-presentation
+#+Options: toc:nil ^:nil
+
+* Org-mode -- a /very/ brief introduction
+** Outlines in plain text
+Outlines
+- /everything/ is an outline
+- navigate large files as if they were directories
+
+Plain Text
+- version control
+- portable
+- use other tools with other tools (e.g., notepad, =grep=)
+
+** Export
+
+:                     +------> LaTeX/PDF
+:                     |                
+:                     +------> HTML     
+:       +-----+       |           
+:       | Org |-------+------> plain text
+:       +-----+       |                 
+:                     +------> Open-Doc  
+:                     |               
+:                     +------> Bibtex, DocBook, Freemind, xoxo, S5...  
+
+** Spreadsheets and Tables
+|  1 |
+|  2 |
+|  3 |
+|  4 |
+|----|
+| 10 |
+#+TBLFM: $1=vsum(@1..@-1)
+
+** Much much more
+(which I am not familiar with and won't focus on)
+
+including...
+- GTD (supports the "Getting Things Done" methodology)
+- scheduling and agendas
+- task management
+
+* Babel -- using code and data in your documents
+Integrating programming and natural languages in Org-mode documents.
+
+- [[file:img/tower-of-babel.png]]
+  #+begin_quote
+  The people is one and they have all one language; ... and now
+  nothing will be restrained from them
+  #+end_quote
+
+- [[file:img/babelfish.png]]
+  #+begin_quote
+  The Babel Fish is small, yellow and simultaneously translates from
+  one spoken language to another.
+  #+end_quote
+
+#+begin_src emacs-lisp :results silent
+  ;; live code execution
+  (org-toggle-inline-images)
+#+end_src
+
+* Applications -- uses of integrated code and data
+
+- Reproducible Research (RR)
+  #+begin_quote Buckheit and Donoho 1995
+    An article about computational science in a scientific publication
+    is not the scholarship itself, it is merely advertising of the
+    scholarship. The actual scholarship is the complete software
+    development environment and complete set of instructions which
+    generated the figures.
+  #+end_quote
+  
+- Literate Programming (LP)
+  #+begin_quote Knuth 1984
+    Let us change our traditional attitude to the construction of
+    programs: Instead of imagining that our main task is to instruct a
+    computer what to do, let us concentrate rather on explaining to
+    human beings what we want a computer to do.
+  #+end_quote
+
+- /working/ notes
+
+- executable class notes, presentations and tutorials
+
+* Syntax -- inline code, data and references
+** Objects
+code block
+#+name: block-name
+#+begin_src language header-arguments
+  body
+#+end_src
+
+- scalar data
+#+name: scalar-data
+: number or string
+
+tabular data
+#+name: tabular-data
+| 1 | 2 |
+| 3 | 4 |
+
+- list data
+#+name: list-data
+- 1
+- 2
+- 3
+- 4
+
+** References
+Objects may be referenced from inline code blocks
+
+#+name: reverse(list=list-data)
+#+begin_src emacs-lisp :results value :exports both
+
+  (print list)
+  (reverse list)
+
+#+end_src
+
+#+RESULTS: reverse
+| 4 | 3 | 2 | 1 |
+
+#+BEGIN_SRC R :var table=tabular-data :results value :exports both
+
+  table
+
+#+END_SRC
+
+#+RESULTS:
+| 1 | 2 |
+| 3 | 4 |
+
+#+NAME: transpose(table=tabular-data)
+#+BEGIN_SRC R  :results value :exports both
+
+  t(table)
+
+#+END_SRC
+
+#+RESULTS: transpose
+| 1 | 3 |
+| 2 | 4 |
+
+#+BEGIN_SRC sh :var data=tabular-data :exports both :results output table
+
+  echo "table as seen in shell"
+  echo "$data"
+
+#+END_SRC
+
+#+RESULTS:
+: table as seen in shell
+: 1	2
+: 3	4
+
+#+BEGIN_SRC sh :var data=reverse(transpose(tabular-data)) :results output :exports both
+
+  echo "reverse of transpose of table as seen in shell"
+  echo "$data"
+
+#+END_SRC
+
+#+RESULTS:
+: reverse of transpose of table as seen in shell
+: 2	4
+: 1	3
+
+#+begin_src sh :var data=reverse(transpose(tabular-data)) :results output :exports both
+
+  echo -e "replace some digits with corresponding strings\n"
+  echo "$data" | sed 's/3/three/;s/2/two/'
+
+#+end_src
+
+#+RESULTS:
+: replace some digits with corresponding strings
+: 
+: two	4
+: 1	three
+
+* Export -- supporting reproducible research
+The results of our experiment are shown in Table \ref{example}.  The
+mean of column 2 of which is equal to src_R[:var d=example]{mean(d[,2])}
+and a plot of which is shown in Figure \ref{example-plot}.
+
+#+Caption: Our example data.
+#+label: example
+#+name: example
+| 1 |  1 |
+| 1 |  4 |
+| 2 |  9 |
+| 3 | 16 |
+| 5 | 25 |
+
+#+name: example-plot
+#+BEGIN_SRC gnuplot :var example_data=example :file example.png
+  set title "This title goes at the top"
+  set xlabel "Squares"
+  set ylabel "Fibonacci"
+  set xrange [0:30]
+  set yrange [0:6]
+  plot example_data using 2:1 with linespoints title "Our example data"
+#+END_SRC
+
+#+RESULTS: example-plot
+[[file:example.png]]
+
+* Tangling -- supporting literate programming
+Tangle out shell scripts to visualize a logistic map.
+
+\begin{equation*}
+  x_{n+1}=rx_{n}(1-x_{n})
+\end{equation*}
+
+This is *IMPORTANT*:
+
+The code blocks in this section should /not/ be executed within the
+context of Org mode.  Just tangle (C-c C-v C-t) and run the generated
+scripts in separate windows, in the order:
+
+- ./make-fifo
+- R --vanilla -q -f generate-r-vals.R
+- R --vanilla -q -f readAndPlotData.R
+
+
+#+NAME: make-fifo
+#+BEGIN_SRC sh :tangle make-fifo :shebang #!/bin/bash
+  
+  mkfifo --mode a+rw /tmp/feedRplot
+  
+#+END_SRC
+
+
+#+NAME: generate-r-vals
+#+BEGIN_SRC R :tangle generate-r-vals.R
+
+  con <- fifo("/tmp/feedRplot", "wb", blocking=TRUE)
+
+  xinit <- 0.5
+  cat (xinit, file=con)
+  cat ("\n", file=con)
+
+  nsteps <- 1000
+  cat (nsteps, file=con)
+  cat ("\n", file=con)
+
+  rvals <- seq(from=2.3, to=4.0, by=0.005)
+  writeBin(rvals, con)
+  cat ("\n", file=con)
+
+  close(con)
+    
+#+END_SRC
+
+#+NAME: readAndPlotData
+#+BEGIN_SRC R :tangle readAndPlotData.R  :results output
+  
+  conx   <- fifo("/tmp/feedRplot", "rb", blocking=TRUE)
+  xinit  <- as.numeric(readLines(conx, n=1))
+  nsteps <- as.numeric(readLines(conx, n=1))
+  
+  x11()
+  plot(1, 1, xlim=c(2.4, 4), ylim=c(0, 1), type="n", ann=FALSE)
+  while(!is.null(next.r.val <- readBin(conx, "double"))) {
+      if (length(next.r.val) > 0) {
+          x <- xinit
+          for (i in 1:nsteps) {
+              x <- next.r.val * x * (1 - x)
+          }
+          points(next.r.val, x, pch=1, cex=0.5)
+      } else {
+          break
+      }
+  }
+  
+  title(main="Logistic Map, bifurcation diagram", col.main="red",
+        cex.main=2.0, xlab="r values", ylab="x values", cex.lab=2,
+        col.lab="blue")
+  text(x=2.8, y=0.9, labels=paste("xinit = ", xinit, sep=""),
+       cex=1.5, col="green")
+  text(x=2.8, y=0.8,
+       labels=expression(x[n+1] %<-% r*x[n]*(1 - x[n])),
+       cex=1.5, col="blue")
+  text(x=2.8, y=0.7, labels=paste("nsteps = ", nsteps, sep=""),
+       cex=1.5, col="red")
+  Sys.sleep(30)
+  
+#+END_SRC
+
+
+* Example -- Pascal's Triangle with Python and Dot
+** Generating Pascal's Triangle with Python
+
+#+name: pascals_triangle
+#+begin_src python :var n=5 :exports output :results value :session
+def pascals_triangle(n):
+    if n == 0:
+        return [[1]]
+    prev_triangle = pascals_triangle(n-1)
+    prev_row = prev_triangle[n-1]
+    this_row = map(sum, zip([0] + prev_row, prev_row + [0]))
+    return prev_triangle + [this_row]
+
+pascals_triangle(n)
+#+end_src
+
+#+RESULTS: pascals_triangle
+| 1 |   |    |    |   |   |
+| 1 | 1 |    |    |   |   |
+| 1 | 2 |  1 |    |   |   |
+| 1 | 3 |  3 |  1 |   |   |
+| 1 | 4 |  6 |  4 | 1 |   |
+| 1 | 5 | 10 | 10 | 5 | 1 |
+
+#+NAME: sanity-check(sc_input=pascals_triangle)
+#+BEGIN_SRC R :fill yes :results output :session :exports both
+  
+  pt <- sc_input
+  pt[is.na(pt)] <- 0
+  rowSums(pt)
+  
+#+END_SRC  
+
+#+RESULTS: sanity-check
+: [1]  1  2  4  8 16 32
+
+#+CALL: pascals_triangle(7)
+
+#+RESULTS: pascals_triangle(7)
+| 1 |   |    |    |    |    |   |   |
+| 1 | 1 |    |    |    |    |   |   |
+| 1 | 2 |  1 |    |    |    |   |   |
+| 1 | 3 |  3 |  1 |    |    |   |   |
+| 1 | 4 |  6 |  4 |  1 |    |   |   |
+| 1 | 5 | 10 | 10 |  5 |  1 |   |   |
+| 1 | 6 | 15 | 20 | 15 |  6 | 1 |   |
+| 1 | 7 | 21 | 35 | 35 | 21 | 7 | 1 |
+
+#+NAME: sanity-check-2(sc_input=pascals_triangle(7))
+#+BEGIN_SRC R :fill yes :results output :session :exports both
+  
+  pt <- sc_input
+  pt[is.na(pt)] <- 0
+  
+  revDiag <- sapply(1:nrow(pt), function (i) {
+                                  sum (
+                                       sapply (i:1, function (j) {
+                                                pt[i - j + 1, j]
+                                            }
+                                       )
+                                  )
+                              }
+                    )
+  print(revDiag)  ##### print sums of reverse-diagonal elements
+  
+  fibR <- function(n) {
+      if (n <= 2) {
+          return (1)
+      } else {
+          return (fibR(n - 1) + fibR(n - 2))
+      }
+  }
+
+  fibNos <- sapply(1:nrow(pt), function(n) fibR(n))
+  print(fibNos) #### print Fibanocci numbers
+
+  all.equal(revDiag, fibNos) #### sums == Fibs?
+
+#+END_SRC  
+
+#+RESULTS: sanity-check-2
+: [1]  1  1  2  3  5  8 13 21
+: [1]  1  1  2  3  5  8 13 21
+: [1] TRUE
+
+** Converting Pascal's Triangle to Dot with Python
+
+#+name: pst-to-dot
+#+begin_src python :var pst=pascals_triangle(5) :results output :exports none
+  def node(i, j):
+      return '"%d_%d"' % (i+1, j+1)
+  
+  def edge(i1, j1, i2, j2):
+      return '%s--%s;' % (node(i1, j1), node(i2,j2))
+  
+  def node_with_edges(i, j):
+      line = '%s [label="%d"];' % (node(i, j), pst[i][j])
+      if j > 0:
+          line += edge(i-1, j-1, i, j)
+      if j < len(pst[i])-1:
+          line += edge(i-1, j, i, j)
+      return line
+  
+  pst = [filter(None, row) for row in pst]
+  
+  print '\n'.join([node_with_edges(i, j)
+                   for i in range(len(pst))
+                   for j in range(len(pst[i]))])
+#+end_src
+
+#+RESULTS: pst-to-dot
+#+begin_example
+"1_1" [label="1"];
+"2_1" [label="1"];"1_1"--"2_1";
+"2_2" [label="1"];"1_1"--"2_2";
+"3_1" [label="1"];"2_1"--"3_1";
+"3_2" [label="2"];"2_1"--"3_2";"2_2"--"3_2";
+"3_3" [label="1"];"2_2"--"3_3";
+"4_1" [label="1"];"3_1"--"4_1";
+"4_2" [label="3"];"3_1"--"4_2";"3_2"--"4_2";
+"4_3" [label="3"];"3_2"--"4_3";"3_3"--"4_3";
+"4_4" [label="1"];"3_3"--"4_4";
+"5_1" [label="1"];"4_1"--"5_1";
+"5_2" [label="4"];"4_1"--"5_2";"4_2"--"5_2";
+"5_3" [label="6"];"4_2"--"5_3";"4_3"--"5_3";
+"5_4" [label="4"];"4_3"--"5_4";"4_4"--"5_4";
+"5_5" [label="1"];"4_4"--"5_5";
+"6_1" [label="1"];"5_1"--"6_1";
+"6_2" [label="5"];"5_1"--"6_2";"5_2"--"6_2";
+"6_3" [label="10"];"5_2"--"6_3";"5_3"--"6_3";
+"6_4" [label="10"];"5_3"--"6_4";"5_4"--"6_4";
+"6_5" [label="5"];"5_4"--"6_5";"5_5"--"6_5";
+"6_6" [label="1"];"5_5"--"6_6";
+#+end_example
+
+
+** Graphing Pascal's Triangle with Dot
+#+headers: :file pascals-triangle.png :cmdline -Tpng
+#+begin_src dot :var pst-vals=pst-to-dot :exports results
+  graph {
+          $pst-vals
+  }
+#+end_src
+
+#+RESULTS:
+[[file:pascals-triangle.png]]
+
+** Code blocks as functions
+
+
+Slightly modified version of example at:
+
+    http://orgmode.org/worg/org-contrib/babel/intro.html
+
+
+#+NAME: tbl-example-data(n=5)
+#+BEGIN_SRC R :session :exports both
+
+  seq(1:n)
+
+#+END_SRC
+
+#+RESULTS: tbl-example-data
+| 1 |
+| 2 |
+| 3 |
+| 4 |
+| 5 |
+
+#+NAME: R-mean(x=0)
+#+BEGIN_SRC R :results silent :session
+
+  mean(x)
+
+#+END_SRC
+
+#+TBLNAME: summaries
+| mean |
+|------|
+|  2.5 |
+#+TBLFM: @2$1='(sbe "R-mean" (x "tbl-example-data(4)"))
+
+
+* Conclusion
+Org-mode has many features which are well suited to RR and LP.
+- open source (essential for RR)
+- widely available
+- active community
+- general and extensible
+- integrated into Emacs (will be included in Emacs24)
